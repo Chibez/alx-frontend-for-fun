@@ -1,10 +1,21 @@
 #!/usr/bin/python3
 """
-Markdown to HTML converter script
+Markdown to HTML converter script that parses headings.
 """
 
 import sys
 import os
+
+def convert_markdown_to_html(markdown_file: str, output_file: str) -> None:
+    """Converts Markdown headings to HTML and writes to an output file."""
+    with open(markdown_file, 'r') as md_file, open(output_file, 'w') as html_file:
+        for line in md_file:
+            line = line.rstrip()  # Remove trailing whitespace
+            if line.startswith('#'):  # Check if the line is a heading
+                heading_level = line.count('#')  # Count the number of '#' characters
+                heading_text = line[heading_level:].strip()  # Extract heading text
+                # Create the corresponding HTML tag
+                html_file.write(f"<h{heading_level}>{heading_text}</h{heading_level}>\n")
 
 if __name__ == '__main__':
     # Check if the number of arguments is less than 2
@@ -21,5 +32,8 @@ if __name__ == '__main__':
         print(f"Missing {markdown_file}", file=sys.stderr)
         sys.exit(1)
 
-    # If all checks pass, exit with status 0
+    # Convert the Markdown file to HTML
+    convert_markdown_to_html(markdown_file, output_file)
+
+    # Exit successfully
     sys.exit(0)
