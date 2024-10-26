@@ -1,33 +1,35 @@
 #!/usr/bin/python3
 """
-Markdown to HTML converter script that parses headings and lists (unordered and ordered).
+Markdown to HTML converter script that parses headings, unordered lists, ordered lists, and paragraphs.
 """
 
 import sys
 import os
 
 def convert_markdown_to_html(markdown_file: str, output_file: str) -> None:
-    """Converts Markdown headings and lists to HTML and writes to an output file."""
+    """Converts Markdown headings, lists, and paragraphs to HTML and writes to an output file."""
     with open(markdown_file, 'r') as md_file, open(output_file, 'w') as html_file:
         inside_unordered_list = False  # Track if we are currently inside an unordered list
         inside_ordered_list = False    # Track if we are currently inside an ordered list
+        paragraph_lines = []            # Store lines for the current paragraph
 
         for line in md_file:
             line = line.rstrip()  # Remove trailing whitespace
             
             # Check for headings
             if line.startswith('#'):
+                if inside_unordered_list:
+                    html_file.write("</ul>\n")  # Close unordered list if open
+                    inside_unordered_list = False
+                if inside_ordered_list:
+                    html_file.write("</ol>\n")   # Close ordered list if open
+                    inside_ordered_list = False
+                
                 heading_level = line.count('#')
                 heading_text = line[heading_level:].strip()
                 if 1 <= heading_level <= 6:  # Ensure heading level is valid
-                    if inside_unordered_list:
-                        html_file.write("</ul>\n")  # Close unordered list if open
-                        inside_unordered_list = False
-                    if inside_ordered_list:
-                        html_file.write("</ol>\n")   # Close ordered list if open
-                        inside_ordered_list = False
                     html_file.write(f"<h{heading_level}>{heading_text}</h{heading_level}>\n")
-                    continue
+                continue
             
             # Check for unordered lists
             if line.startswith('- '):
@@ -46,20 +48,26 @@ def convert_markdown_to_html(markdown_file: str, output_file: str) -> None:
                 list_item = line[2:].strip()  # Get the item text after '* '
                 html_file.write(f"  <li>{list_item}</li>\n")
                 continue
+            
+            # Handle paragraphs
+            if line.strip() == "":
+                if paragraph_lines:  # If we have collected paragraph lines, write them out
+                    html_file.write("<p>\n")
+                    html_file.write("<br />\n".join(paragraph_lines))
+                    html_file.write("</p>\n")
+                    paragraph_lines.clear()  # Clear collected lines for the next paragraph
+            else:
+                paragraph_lines.append(line.strip())  # Add line to the current paragraph
 
-            # Close any open lists if a non-list line is encountered
-            if inside_unordered_list:
-                html_file.write("</ul>\n")
-                inside_unordered_list = False
-            if inside_ordered_list:
-                html_file.write("</ol>\n")
-                inside_ordered_list = False
-        
-        # Close any open lists at the end of the file
+        # Close any open lists and remaining paragraph at the end of the file
         if inside_unordered_list:
             html_file.write("</ul>\n")
         if inside_ordered_list:
             html_file.write("</ol>\n")
+        if paragraph_lines:  # Write the last paragraph if any lines are left
+            html_file.write("<p>\n")
+            html_file.write("<br />\n".join(paragraph_lines))
+            html_file.write("</p>\n")
 
 if __name__ == '__main__':
     # Check if the number of arguments is less than 2
