@@ -1,0 +1,51 @@
+/* General Styling */
+body {
+    font-size: 16px; /* Increased for readability */
+    color: #333; /* Darker text for contrast */
+    background-color: #f9f9f9;
+    line-height: 1.6; /* Improved readability */
+}
+
+/* Button Styling */
+button, .btn {
+    background-color: #0073e6;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Adding depth */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transition */
+}
+
+button:hover, .btn:hover {
+    background-color: #005bb5;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Spacing Improvements */
+.container {
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+.section {
+    margin-bottom: 30px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px; /* Slightly smaller on mobile */
+    }
+    
+    .container {
+        padding: 10px;
+        margin: 10px;
+    }
+    
+    button, .btn {
+        padding: 8px 16px; /* Adjusted padding for mobile */
+    }
+}
