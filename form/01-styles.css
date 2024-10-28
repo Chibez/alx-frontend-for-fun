@@ -1,0 +1,110 @@
+/* Global Styles */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Root Variables */
+:root {
+    /* Colors */
+    --color-primary: #27ae60;
+    --color-black: #2c2c54;
+    --color-white: #ffffff;
+    
+    /* Font Sizes */
+    --font-size-small: 1.2rem;
+    --font-size-medium: 1.6rem;
+    --font-size-large: 1.8rem;
+    --font-size-x-large: 2.3rem;
+    --font-size-xx-large: 4.8rem;
+
+    /* Responsive Font Sizes */
+    --font-size-responsive-small: 1rem;
+    --font-size-responsive-medium: 1.4rem;
+    --font-size-responsive-large: 1.6rem;
+}
+
+html {
+    font-size: 62.5%;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: var(--font-size-medium);
+    color: var(--color-black);
+    line-height: 1.6;
+}
+
+/* Container */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Section Styling */
+.section {
+    padding: 5rem 0;
+}
+
+/* Buttons */
+.button {
+    display: inline-block;
+    padding: 1.5rem 3rem;
+    border: 0.2rem solid var(--color-primary);
+    font-size: var(--font-size-large);
+    color: var(--color-black);
+    background-color: transparent;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.button:hover {
+    color: var(--color-white);
+    background-color: var(--color-primary);
+}
+
+/* Accessibility Improvements */
+a:focus-visible {
+    outline: 2px solid var(--color-primary);
+}
+
+/* Image */
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* Text Alignment */
+.text-center {
+    text-align: center;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    :root {
+        --font-size-medium: var(--font-size-responsive-medium);
+        --font-size-large: var(--font-size-responsive-large);
+    }
+
+    .section {
+        padding: 3rem 1rem;
+    }
+
+    .container {
+        width: 100%;
+        padding: 0 1rem;
+    }
+
+    .button {
+        padding: 1rem 2rem;
+        font-size: var(--font-size-responsive-medium);
+    }
+}
+
